@@ -9,15 +9,102 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  // directUrl = env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-model User {
-  id           Int    @id @default(autoincrement())
-  email        String @unique
-  phone_number Int    @default(0)
-  name         String @db.VarChar(100)
-  password     String @db.VarChar(255)
+model Fermier {
+  fermer_id     Int        @id @default(autoincrement())
+  nom           String     @db.VarChar(100)
+  prenom        String     @db.VarChar(100)
+  email         String     @db.VarChar(100)
+  phone_number  Int
+  adresse       String     @db.VarChar(150)
+  password      String     @db.VarChar(255)
+  created_at    DateTime   @default(now())
+  update_at     DateTime   @updatedAt
+  role          String
+  entreprise_id Int
+  entreprise    Entreprise @relation("Fermier_Entreprise", fields: [entreprise_id], references: [Entreprise_id], onUpdate: Cascade, onDelete: Cascade)
+}
+
+model Entreprise {
+  Entreprise_id   Int               @id @default(autoincrement())
+  nom             String            @db.VarChar(100)
+  vague_id        Int
+  type_aliment    Type_aliment[]    @relation("Type_aliment_Entreprise")
+  type_medicament Type_medicament[] @relation("Type_medicament_Entreprise")
+  fermier         Fermier[]         @relation("Fermier_Entreprise")
+  environnement   Environnement[]   @relation("Entreprise_Environnement")
+  Vague           Vague             @relation("Vague_Entreprise", fields: [vague_id], references: [Vague_id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Vague {
+  Vague_id          Int             @id @default(autoincrement())
+  Date_debut        DateTime        @db.Date
+  Quantite_entree   Int
+  Quantite_presente Int
+  N_jour            Int
+  entreprise        Entreprise[]    @relation("Vague_Entreprise")
+  deces             Deces[]         @relation("Vague_Deces")
+  type_vollaile     Type_vollaile[] @relation("type_vollaile_vague")
+  vente             Vente[]         @relation("Vague_Vente")
+}
+
+model Type_vollaile {
+  Type_vollaile_id Int    @id @default(autoincrement())
+  nom              String @db.VarChar(100)
+  vague_id         Int
+
+  type_aliment    Type_aliment[]    @relation("Type_vollaile_Type_aliment")
+  type_medicament Type_medicament[] @relation("Type_vollaile_Type_medicament")
+  vague           Vague             @relation("type_vollaile_vague", fields: [vague_id], references: [Vague_id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Type_medicament {
+  Type_medicament_id Int           @id @default(autoincrement())
+  nom                String        @db.VarChar(100)
+  quantite           Int
+  type_vollaile_id   Int
+  entreprise_id      Int
+  entreprise         Entreprise    @relation("Type_medicament_Entreprise", fields: [entreprise_id], references: [Entreprise_id], onDelete: Cascade, onUpdate: Cascade)
+  type_vollaile      Type_vollaile @relation("Type_vollaile_Type_medicament", fields: [type_vollaile_id], references: [Type_vollaile_id], onUpdate: Cascade, onDelete: Cascade)
+}
+
+model Type_aliment {
+  Type_aliment_id  Int           @id @default(autoincrement())
+  nom              String        @db.VarChar(100)
+  quantite         Int
+  entreprise_id    Int
+  type_vollaile_id Int
+  entreprise       Entreprise    @relation("Type_aliment_Entreprise", fields: [entreprise_id], references: [Entreprise_id], onUpdate: Cascade, onDelete: Cascade)
+  type_vollaile    Type_vollaile @relation("Type_vollaile_Type_aliment", fields: [type_vollaile_id], references: [Type_vollaile_id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Deces {
+  Deces_id    Int      @id @default(autoincrement())
+  vague_id    Int
+  Nmbre_deces Int
+  date_deces  DateTime @default(now())
+  vague       Vague    @relation("Vague_Deces", fields: [vague_id], references: [Vague_id], onUpdate: Cascade, onDelete: Cascade)
+}
+
+model Vente {
+  Vente_id    Int      @id @default(autoincrement())
+  vague_id    Int
+  Nmbre_vente Int
+  date_vente  DateTime @default(now())
+  vague       Vague    @relation("Vague_Vente", fields: [vague_id], references: [Vague_id], onUpdate: Cascade, onDelete: Cascade)
+}
+
+model Environnement {
+  Environnemt_id        Int        @id @default(autoincrement())
+  temperature_max_seuil Int
+  temperature_min_seuil Int
+  humidite_max_seuil    Int
+  humidite_min_seuil    Int
+  type_vollaile_id      Int
+  entreprise_id         Int
+  entreprise            Entreprise @relation("Entreprise_Environnement", fields: [entreprise_id], references: [Entreprise_id], onUpdate: Cascade, onDelete: Cascade)
 }

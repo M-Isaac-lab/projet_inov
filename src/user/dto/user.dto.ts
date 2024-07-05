@@ -8,7 +8,7 @@ export class UserDto {
   readonly email :  string
 
   @IsNotEmpty()
-  readonly name :  string
+  readonly nom :  string
 
   @IsNotEmpty()
   @IsOptional()
@@ -16,5 +16,17 @@ export class UserDto {
 
   @IsNotEmpty()
   readonly password:  string
+
+  @IsNotEmpty()
+  readonly prenom : string
+
+  @IsNotEmpty()
+  readonly adresse : string
+
+  @IsNotEmpty()
+  readonly role : string
+
+  @IsNotEmpty()
+  readonly entreprise_id : number
 
 }

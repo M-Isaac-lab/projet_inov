@@ -10,9 +10,9 @@ export class UserService {
   }
 
   async Add_User(user: UserDto) {
-    const {email, name} = user
+
     try{
-      const user_rep = await this.prismaService.user.create({ data: {...user } });
+      const user_rep = await this.prismaService.fermier.create({data : {...user}})
       return user_rep
     } catch (e) {
       return e
