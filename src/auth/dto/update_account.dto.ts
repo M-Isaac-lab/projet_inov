@@ -1,13 +1,12 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
 
-export class UserAuthDTO {
+export class Update_accountDto {
 
   @IsEmail()
   @IsNotEmpty()
-  readonly email: string
+  readonly email : string
 
   @IsNotEmpty()
-  readonly password:  string
-
+  readonly password : string
 
 }

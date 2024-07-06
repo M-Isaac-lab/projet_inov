@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 import { JwtAuthGuard } from '../jwtstrategy/jwt-auth.guard';
@@ -11,14 +11,19 @@ export class UserController {
     private readonly userService: UserService,
   ) {
 
-
-
     }
 
   @ApiBasicAuth()
   @UseGuards(JwtAuthGuard)
-  @Post("/add")
-  Add_user(@Body() user: UserDto) {
-    return this.userService.Add_User(user)
+  @Get("")
+  Get_all_user() {
+    return this.userService.Get_All_User()
   }
+
+@ApiBasicAuth()
+@UseGuards(JwtAuthGuard)
+@Get("/:id")
+  Get_one_user (@Param("id",ParseIntPipe) Fermier_id : number) {
+    return this.userService.Get_One_User(Fermier_id)
+}
 }

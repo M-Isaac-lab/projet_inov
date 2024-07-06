@@ -15,10 +15,10 @@ datasource db {
 }
 
 model Fermier {
-  fermer_id     Int        @id @default(autoincrement())
+  Fermier_id    Int        @id @default(autoincrement())
   nom           String     @db.VarChar(100)
   prenom        String     @db.VarChar(100)
-  email         String     @db.VarChar(100)
+  email         String     @unique @db.VarChar(100)
   phone_number  Int
   adresse       String     @db.VarChar(150)
   password      String     @db.VarChar(255)
@@ -31,7 +31,7 @@ model Fermier {
 
 model Entreprise {
   Entreprise_id   Int               @id @default(autoincrement())
-  nom             String            @db.VarChar(100)
+  nom             String            @unique @db.VarChar(100)
   vague_id        Int
   type_aliment    Type_aliment[]    @relation("Type_aliment_Entreprise")
   type_medicament Type_medicament[] @relation("Type_medicament_Entreprise")

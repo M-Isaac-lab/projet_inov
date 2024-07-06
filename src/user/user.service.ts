@@ -9,15 +9,14 @@ export class UserService {
               ) {
   }
 
-  async Add_User(user: UserDto) {
+  async Get_All_User() {
+    const user = await this.prismaService.fermier.findMany()
+    return user
+  }
 
-    try{
-      const user_rep = await this.prismaService.fermier.create({data : {...user}})
-      return user_rep
-    } catch (e) {
-      return e
-    }
-
+  async Get_One_User(Fermier_id: number) {
+    const user = await this.prismaService.fermier.findUnique({where : {Fermier_id}})
+    return user
 
   }
 }

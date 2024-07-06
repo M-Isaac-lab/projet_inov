@@ -1,13 +1,9 @@
 import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 
-export class SignupDto {
-
-
-  @IsEmail()
-  @IsNotEmpty()
-  readonly email :  string
+export class Update_account_infoDto {
 
   @IsNotEmpty()
+  @IsOptional()
   readonly nom :  string
 
   @IsNotEmpty()
@@ -15,18 +11,22 @@ export class SignupDto {
   readonly phone_number : number
 
   @IsNotEmpty()
-  readonly password:  string
-
-  @IsNotEmpty()
+  @IsOptional()
   readonly prenom : string
 
   @IsNotEmpty()
+  @IsOptional()
   readonly adresse : string
 
   @IsNotEmpty()
+  @IsOptional()
   readonly role : string
 
   @IsNotEmpty()
+  @IsOptional()
   readonly entreprise_id : number
+
+  @IsNotEmpty()
+  readonly code_otp : string
 
 }
