@@ -55,8 +55,8 @@ export class AuthService {
       return {data : "success !"}
     }catch (e) {
       throw new UnauthorizedException(e);
-      console.log(e)
-      return {data : "Error in the transaction"}
+      //console.log(e)
+      return {data : "Error in the transaction",e}
     }
 
 

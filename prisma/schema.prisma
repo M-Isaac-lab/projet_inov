@@ -99,7 +99,7 @@ model Vente {
 }
 
 model Environnement {
-  Environnemt_id        Int        @id @default(autoincrement())
+  Environnement_id      Int        @id @default(autoincrement())
   temperature_max_seuil Int
   temperature_min_seuil Int
   humidite_max_seuil    Int
